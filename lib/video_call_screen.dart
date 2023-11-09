@@ -16,6 +16,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       tempToken:
           '007eJxTYNjOxXvzwYp1TCWrdy9v2X10j6ff2abdXGZF+ltLP7w3d9VXYDAzMDRNNjVLSTZMMTOxNDOwNDc2TjY0Mky0SDQyNLYwUg73Tm0IZGSQNhFjYIRCEJ+VoSS1uMSQgQEAT3Adig==',
     ),
+    enabledPermission: [Permission.camera, Permission.microphone],
     agoraChannelData: AgoraChannelData(
       channelProfileType: ChannelProfileType.channelProfileCommunication1v1,
       clientRoleType: ClientRoleType.clientRoleBroadcaster,
