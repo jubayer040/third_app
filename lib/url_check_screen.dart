@@ -8,22 +8,28 @@ class UrlCheckScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Expanded(child: WidgetBindingsObserverSample()),
+          //const Expanded(child: WidgetBindingsObserverSample()),
           ElevatedButton(
             onPressed: () async {
               final url = Uri.parse(_url);
               if (await canLaunchUrl(url)) {
                 try {
-                  final ff = await launchUrl(
+                  await launchUrl(
                     url,
-                    mode: LaunchMode.inAppWebView,
-                    webOnlyWindowName: '_blank',
+                    mode: LaunchMode.externalApplication,
                   );
-                  Fluttertoast.showToast(msg: ff.toString());
                 } catch (e) {
                   Fluttertoast.showToast(msg: "Error: $e");
                 }
@@ -40,8 +46,8 @@ class UrlCheckScreen extends StatelessWidget {
   }
 }
 
-const _url = //'https://pub.dev/packages/url_launcher/example';
-    'https://agora-video-call-eight.vercel.app/?username=Muntasir&aptCode=SG-D-1-SG-P-33-2';
+const _url = //'https://pub.dev/';
+    "https://agora-video-call-eight.vercel.app/?username=Muntasir&aptCode=SG-D-1-SG-P-33-2";
 
 class WidgetBindingsObserverSample extends StatefulWidget {
   const WidgetBindingsObserverSample({super.key});
@@ -60,10 +66,6 @@ class _WidgetBindingsObserverSampleState
     WidgetsBinding.instance.addObserver(this);
     if (WidgetsBinding.instance.lifecycleState != null) {
       _stateHistoryList.add(WidgetsBinding.instance.lifecycleState!);
-      print('1111111111111111111111111');
-      print(WidgetsBinding.instance.lifecycleState!);
-      print('jjjjjjjjjjjjjjjjjjjjjjj');
-      print(WidgetsBinding.instance.lifecycleState!);
     }
   }
 

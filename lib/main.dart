@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:third_app/url_check_screen.dart';
 import 'package:third_app/video_call2_screen.dart';
 import 'package:third_app/video_call3_screen.dart';
+import 'package:third_app/video_call5_screen.dart';
 import 'package:third_app/video_call_screen.dart';
 
 void main() {
@@ -60,6 +61,12 @@ class HomeScreen extends StatelessWidget {
               onPressed: () =>
                   _checkPermission(context, const UrlCheckScreen()),
               child: const Text('Demo 4'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () =>
+                  _checkPermission(context, const VideoCall5Screen()),
+              child: const Text('Demo 5'),
             ),
           ],
         ),
