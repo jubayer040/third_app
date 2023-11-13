@@ -14,24 +14,28 @@ class _VideoCall6ScreenState extends State<VideoCall6Screen> {
   final GlobalKey webViewKey = GlobalKey();
   InAppWebViewController? webViewController;
   PullToRefreshController? pullToRefreshController;
-  double progress = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  double _progress = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("InAppWebView"),
+        backgroundColor: const Color(0xFFECF6FF),
+        elevation: 10,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.close_outlined),
+        ),
         actions: [
-          ElevatedButton(
-            child: const Icon(Icons.refresh),
+          IconButton(
+            icon: const Icon(Icons.edit_document),
+            onPressed: _showModalBottomSheet,
+          ),
+          IconButton(
+            icon: const Icon(Icons.refresh),
             onPressed: () => webViewController?.reload(),
           ),
-          const SizedBox(width: 15),
+          const SizedBox(width: 10),
         ],
       ),
       body: SafeArea(
@@ -50,7 +54,9 @@ class _VideoCall6ScreenState extends State<VideoCall6Screen> {
                         databaseEnabled: true,
                         domStorageEnabled: true,
                       ),
-                      ios: IOSInAppWebViewOptions(),
+                      ios: IOSInAppWebViewOptions(
+                        disallowOverScroll: true,
+                      ),
                     ),
                     onWebViewCreated: (controller) async {
                       webViewController = controller;
@@ -72,21 +78,11 @@ class _VideoCall6ScreenState extends State<VideoCall6Screen> {
                         return IOSNavigationResponseAction.ALLOW;
                       }
                     },
-                    onLoadResource: (controller, resource) {},
                     onLoadStart: (controller, url) {
                       if (url != null &&
                           url.toString().contains('https://soowgood.com/')) {
                         Navigator.pop(context);
                       }
-                    },
-                    onLoadStop: (controller, url) {
-                      // Page loading finished
-                      // Add click event listener to a specific element with ID "myButton"
-                      // controller.evaluateJavascript(source: '''
-                      //     document.getElementById("myButton").addEventListener("click", function() {
-                      //       window.flutter_inappwebview.callHandler('onButtonClick', 'Button Clicked!');
-                      //     });
-                      // ''');
                     },
                     onLoadError: (controller, request, i, error) {
                       pullToRefreshController?.endRefreshing();
@@ -95,13 +91,12 @@ class _VideoCall6ScreenState extends State<VideoCall6Screen> {
                       if (progress == 100) {
                         pullToRefreshController?.endRefreshing();
                       }
-                      setState(() {
-                        this.progress = progress / 100;
-                      });
+                      setState(() => _progress = progress / 100);
                     },
                   ),
-                  progress < 1.0
-                      ? LinearProgressIndicator(value: progress)
+                  // progress indicatior
+                  _progress < 1.0
+                      ? LinearProgressIndicator(value: _progress)
                       : Container(),
                 ],
               ),
@@ -110,5 +105,66 @@ class _VideoCall6ScreenState extends State<VideoCall6Screen> {
         ),
       ),
     );
+  }
+
+  void _showModalBottomSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(),
+      builder: (_) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => Navigator.pop(context),
+          child: DraggableScrollableSheet(
+            initialChildSize: .5,
+            minChildSize: .5,
+            maxChildSize: 1,
+            builder: (_, controller) => StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                  ),
+                  child: ListView(
+                    controller: controller,
+                    children: [
+                      // titlte
+                      Center(
+                        child: Text(
+                          "Prescription",
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ...List.generate(
+                        15,
+                        (index) => Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          child: ListTile(
+                            leading: Text('${index + 1}.'),
+                            title: const Text(
+                                'Hili - Bili, Hope yaa\' doing well!'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    webViewController!.clearCache();
+    super.dispose();
   }
 }

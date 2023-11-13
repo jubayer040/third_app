@@ -4,7 +4,7 @@ import 'package:third_app/url_check_screen.dart';
 import 'package:third_app/video_call2_screen.dart';
 import 'package:third_app/video_call3_screen.dart';
 import 'package:third_app/video_call5_screen.dart';
-import 'package:third_app/video_call6_screen.dart';
+import 'package:third_app/video_call1_screen.dart';
 import 'package:third_app/video_call_screen.dart';
 
 void main() {
@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () =>
-                  _checkPermission(context, const VideoCallScreen()),
+                  _checkPermission(context, const VideoCall1Screen()),
               child: const Text('Demo 1'),
             ),
             const SizedBox(height: 20),
@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () =>
-                  _checkPermission(context, const VideoCall6Screen()),
+                  _checkPermission(context, const VideoCallScreen()),
               child: const Text('Demo 6'),
             ),
           ],
