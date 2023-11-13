@@ -1,11 +1,14 @@
+import 'package:agora_uikit/agora_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:third_app/url_check_screen.dart';
 import 'package:third_app/video_call2_screen.dart';
 import 'package:third_app/video_call3_screen.dart';
 import 'package:third_app/video_call5_screen.dart';
+import 'package:third_app/video_call6_screen.dart';
 import 'package:third_app/video_call_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -68,6 +71,12 @@ class HomeScreen extends StatelessWidget {
                   _checkPermission(context, const VideoCall5Screen()),
               child: const Text('Demo 5'),
             ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () =>
+                  _checkPermission(context, const VideoCall6Screen()),
+              child: const Text('Demo 6'),
+            ),
           ],
         ),
       ),
@@ -75,6 +84,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _checkPermission(BuildContext context, Widget screen) async {
+    await Permission.camera.request();
+    await Permission.microphone.request();
     // var status = await Permission.camera.status;
     // if (status.isGranted) {
     //   status = await Permission.microphone.status;
