@@ -140,6 +140,9 @@ class _VideoCall6ScreenState extends State<VideoCall6Screen> {
                         ),
                       ),
                       const SizedBox(height: 20),
+                      const TextField(),
+                      const SizedBox(height: 20),
+
                       ...List.generate(
                         15,
                         (index) => Container(

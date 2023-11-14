@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UrlCheckScreen extends StatelessWidget {
-  const UrlCheckScreen({super.key});
+class VideoCall4Screen extends StatelessWidget {
+  const VideoCall4Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class UrlCheckScreen extends StatelessWidget {
                 try {
                   await launchUrl(
                     url,
-                    mode: LaunchMode.externalApplication,
+                    mode: LaunchMode.platformDefault,
                   );
                 } catch (e) {
                   Fluttertoast.showToast(msg: "Error: $e");
@@ -47,7 +47,7 @@ class UrlCheckScreen extends StatelessWidget {
 }
 
 const _url = //'https://pub.dev/';
-    "https://agora-video-call-eight.vercel.app/?username=Muntasir&aptCode=SG-D-1-SG-P-33-2";
+    "https://agora-video-call-eight.vercel.app/?username=Muntasir&aptCode=SG-D-1-SG-P-33-2&c=doctor";
 
 class WidgetBindingsObserverSample extends StatefulWidget {
   const WidgetBindingsObserverSample({super.key});

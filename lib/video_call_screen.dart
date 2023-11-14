@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:third_app/video_call6_screen.dart';
 
 class VideoCallScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class VideoCallScreen extends StatelessWidget {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    bottom: 20,
+                    bottom: 25,
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -73,15 +74,11 @@ class VideoCallScreen extends StatelessWidget {
                   //
                   Positioned(
                     bottom: 0,
-                    left: 0,
-                    right: 0,
+                    left: 30,
+                    right: 30,
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const VideoCall6Screen()),
-                        );
+                        _requestPermissions(context);
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 13),
@@ -105,18 +102,19 @@ class VideoCallScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             InkWell(
               onTap: () {
                 Fluttertoast.showToast(msg: 'I\'m not ur servant, Quack Doc!');
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 13),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   //color: MyColor.bluePrimary,
-                  color: Colors.grey,
+                  color: const Color(0xFFBDDDFC),
                 ),
                 child: const Text(
                   'Write a Prescription',
@@ -133,12 +131,31 @@ class VideoCallScreen extends StatelessWidget {
       ),
     );
   }
+
+  _requestPermissions(BuildContext context) async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.camera,
+      Permission.microphone,
+    ].request();
+
+    // Check if permissions are granted
+    if (statuses[Permission.camera] == PermissionStatus.granted &&
+        statuses[Permission.microphone] == PermissionStatus.granted) {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const VideoCall6Screen()),
+      );
+    } else {
+      // Permissions denied, handle accordingly
+      // ...
+    }
+  }
 }
 
 const desclaimerText = """
   * Reload button: to reload the app.
-  * 
-  1. There is a Document & reload buttons at the top.
+  1. There is a Document button at the top.
   2. You can add immediate note of the patient by Document button.
   3. Immediate notes will be shown, while writing the Prescription.
 """;
